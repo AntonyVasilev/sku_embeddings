@@ -114,7 +114,7 @@ class UserItemMatrix:
 
 
 if __name__ == '__main__':
-    data = pd.read_csv('sales_data.csv')
+    data = pd.read_csv('data/sales_data.csv')
     matrix = UserItemMatrix(data)
 
     n_users = matrix.user_count
