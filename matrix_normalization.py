@@ -1,6 +1,7 @@
 from scipy.sparse import csr_matrix
 from user_item_matrix_class import UserItemMatrix
 import pandas as pd
+import numpy as np
 
 
 class Normalization:
@@ -41,7 +42,7 @@ class Normalization:
             csr_matrix: Normalized matrix of size (N, M)
         """
         TF = matrix.multiply(1 / matrix.sum(axis=1)).tocsr()
-        IDF = csr_matrix(matrix.shape[0] / (matrix > 0).sum(axis=0)).log1p()
+        IDF = csr_matrix(np.log(matrix.shape[0] / (matrix > 0).sum(axis=0)))
         norm_matrix = TF.multiply(IDF).tocsr()
         return norm_matrix
 
@@ -58,7 +59,7 @@ class Normalization:
             csr_matrix: Normalized matrix of size (N, M)
         """
         TF = matrix.multiply(1 / matrix.sum(axis=1)).tocsr()
-        IDF = csr_matrix(matrix.shape[0] / (matrix > 0).sum(axis=0)).log1p()
+        IDF = csr_matrix(np.log(matrix.shape[0] / (matrix > 0).sum(axis=0)))
         sub_numerator = csr_matrix(matrix.sum(axis=1) / matrix.sum(axis=1).mean()).multiply(b)
         sub_numerator.data += (1 - b)
         sub_numerator = sub_numerator.multiply(k1)
@@ -81,9 +82,9 @@ if __name__ == '__main__':
     matrix_ = UserItemMatrix(data)
     csr_matrix_ = matrix_.csr_matrix
 
-    # norm_cols = Normalization.by_column(csr_matrix_)
-    # norm_rows = Normalization.by_row(csr_matrix_)
-    # tf_idf_ = Normalization.tf_idf(csr_matrix_)
+    norm_cols = Normalization.by_column(csr_matrix_)
+    norm_rows = Normalization.by_row(csr_matrix_)
+    tf_idf_ = Normalization.tf_idf(csr_matrix_)
     bm_25_ = Normalization.bm_25(csr_matrix_)
 
     print()
