@@ -65,12 +65,6 @@ class Normalization:
         sub_numerator = sub_numerator.multiply(k1)
 
         denominator = sub_numerator.multiply(TF.power(-1))
-
-        # denominator = (
-        #     (csr_matrix(k1 * (1 - b + csr_matrix(matrix.sum(axis=1) /
-        #                                          (matrix > 0).sum(axis=1).mean()).multiply(b).data)))
-        #     .multiply(TF.power(-1)).tocsr()
-        # )
         denominator.data += 1
         fraction = denominator.power(-1).multiply(k1 + 1)
         norm_matrix = fraction.multiply(IDF)
