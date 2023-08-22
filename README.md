@@ -6,4 +6,4 @@ Stack: python, pandas, scipy, scikit-learn, SQL, ClickHouse
 ### Project stages:
 1. Create User-Item Matrix
 2. Make Matrix Normalization
-3. ...
+3. Building embeddings
